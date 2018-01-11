@@ -46,15 +46,15 @@ services:
     volumes: 
       - gitstorage:/home/git/data 
     environment:
-      - GITLAB_PORT: 10080
-      - GITLAB_SSH_PORT: 10022
-      - DEBUG:false
-      - DB_ADAPTER:postgresql
-      - DB_HOST:postgresql
-      - DB_PORT:5432
-      - DB_USER:gitlab
-      - DB_PASS:password
-      - DB_NAME:gitlabhq_production
-      - REDIS_HOST:=redis
-      - REDIS_POR:6379
-	  
+      - GITLAB_PORT=10080
+      - GITLAB_SSH_PORT=10022
+      - DEBUG=false
+      - DB_TYPE=postgres
+      - DB_ADAPTER=postgresql
+      - DB_HOST=postgresql
+      - DB_PORT=5432
+      - DB_USER=gitlab
+      - DB_PASS=password
+      - DB_NAME=gitlabhq_production
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
