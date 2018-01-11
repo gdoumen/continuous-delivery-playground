@@ -8,24 +8,29 @@ volumes:
 # Services (Docker containers)
 services:
 
-
-  # Mongo Database
+  # Postegres Database
   postgresql:
-    
     container_name: gitlab-postgresql
+    restart: always
     image: sameersbn/postgresql:9.4-3
-
-    # We use mongostorage data volume and we will use the /data/db path for the database inside the container
     volumes: 
       - pgstorage:/var/lib/postgresql
-    # Expose a MongoDB port to connect to, defined by the MONGODB_EXPOSED_PORT environment variable
-    # and map this port to the 27017 internal port which is what MongoDB uses
     ports:
       - "5432:5432"
-
     environment:
       DB_NAME: gitlabhq_production
       DB_USER: gitlab
       DB_PASS: password
+
+  redis:	  
+    container_name: gitlab-redis
+    restart: always
+    image: sameersbn/redis:latest
+    ports:
+      - "6379:6379"
+    volumes: 
+      - glrstorage:/var/lib/redis 
+    
+
 
 
