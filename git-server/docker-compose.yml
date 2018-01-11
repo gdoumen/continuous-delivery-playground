@@ -1,0 +1,31 @@
+# docker-compose.yml file version
+version: '2'
+ 
+# Data volume for Mongo
+volumes:
+ pgstorage:
+
+# Services (Docker containers)
+services:
+
+
+  # Mongo Database
+  postgresql:
+    
+    container_name: gitlab-postgresql
+    image: sameersbn/postgresql:9.4-3
+
+    # We use mongostorage data volume and we will use the /data/db path for the database inside the container
+    volumes: 
+      - pgstorage:/var/lib/postgresql
+    # Expose a MongoDB port to connect to, defined by the MONGODB_EXPOSED_PORT environment variable
+    # and map this port to the 27017 internal port which is what MongoDB uses
+    ports:
+      - "5432:5432"
+
+    environment:
+      DB_NAME: gitlabhq_production
+      DB_USER: gitlab
+      DB_PASS: password
+
+
