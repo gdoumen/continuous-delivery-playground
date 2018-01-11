@@ -4,6 +4,8 @@ version: '2'
 # Data volume for Mongo
 volumes:
  pgstorage:
+ glrstorage:
+ gitstorage:
 
 # Services (Docker containers)
 services:
@@ -11,7 +13,6 @@ services:
   # Postegres Database
   postgresql:
     container_name: gitlab-postgresql
-    restart: always
     image: sameersbn/postgresql:9.4-3
     volumes: 
       - pgstorage:/var/lib/postgresql
@@ -22,15 +23,27 @@ services:
       DB_USER: gitlab
       DB_PASS: password
 
-  redis:	  
+  redis:
     container_name: gitlab-redis
-    restart: always
     image: sameersbn/redis:latest
     ports:
       - "6379:6379"
     volumes: 
       - glrstorage:/var/lib/redis 
+
+  gitlab:
+    container_name: gitlab
+    restart: always
+    image: sameersbn/gitlab:7.14.3
+    ports:
+      - "10080:80"
+      - "10022:22"
+    depends-on:
+      - "gitlab-postgresql"
+      - "gitlab-redis"
+    volumes: 
+      - gitstorage:/home/git/data 
+    environment:
+      GITLAB_PORT: 10080
+      GITLAB_SSH_PORT: 10022
     
-
-
-
